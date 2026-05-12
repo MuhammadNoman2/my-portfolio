@@ -1,0 +1,87 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow1" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="80" result="blur"/>
+    </filter>
+    <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="60" result="blur"/>
+    </filter>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="50%"  stop-color="#e9d5ff"/>
+      <stop offset="100%" stop-color="#f0abfc"/>
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#8b5cf6" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#d946ef" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#000000"/>
+
+  <!-- Ambient orbs -->
+  <circle cx="150" cy="150" r="320" fill="#6d28d9" fill-opacity="0.15" filter="url(#glow1)"/>
+  <circle cx="1100" cy="500" r="280" fill="#2563eb" fill-opacity="0.10" filter="url(#glow2)"/>
+  <circle cx="700" cy="580" r="200" fill="#7c3aed" fill-opacity="0.08" filter="url(#glow1)"/>
+
+  <!-- Dot grid (subtle) -->
+  <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="1" fill="white" fill-opacity="0.04"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+
+  <!-- Top accent line -->
+  <rect x="80" y="80" width="60" height="3" rx="2" fill="#8b5cf6"/>
+  <rect x="152" y="80" width="20" height="3" rx="2" fill="#8b5cf6" fill-opacity="0.4"/>
+
+  <!-- Label -->
+  <text x="80" y="148" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="600" letter-spacing="4" fill="#8b5cf6" text-transform="uppercase">PORTFOLIO</text>
+
+  <!-- Name -->
+  <text x="80" y="260" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="80" font-weight="900" fill="white" letter-spacing="-2">Muhammad</text>
+  <text x="80" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="80" font-weight="900" fill="url(#textGrad)" letter-spacing="-2">Noman</text>
+
+  <!-- Role -->
+  <text x="80" y="415" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="500" fill="#a1a1aa">Software Developer &amp; CTO of Tech Triggers</text>
+
+  <!-- Divider -->
+  <rect x="80" y="445" width="500" height="1" fill="white" fill-opacity="0.08"/>
+
+  <!-- Tech stack pills -->
+  <!-- React pill -->
+  <rect x="80" y="466" width="88" height="34" rx="17" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="124" y="488" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#c4b5fd" text-anchor="middle">React</text>
+
+  <!-- Next.js pill -->
+  <rect x="178" y="466" width="92" height="34" rx="17" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="224" y="488" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#c4b5fd" text-anchor="middle">Next.js</text>
+
+  <!-- Flutter pill -->
+  <rect x="280" y="466" width="88" height="34" rx="17" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="324" y="488" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#c4b5fd" text-anchor="middle">Flutter</text>
+
+  <!-- Node.js pill -->
+  <rect x="378" y="466" width="96" height="34" rx="17" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="426" y="488" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#c4b5fd" text-anchor="middle">Node.js</text>
+
+  <!-- Python pill -->
+  <rect x="484" y="466" width="88" height="34" rx="17" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="528" y="488" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#c4b5fd" text-anchor="middle">Python</text>
+
+  <!-- Location + URL -->
+  <text x="80" y="556" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" fill="#52525b">📍 Islamabad, Pakistan</text>
+  <text x="80" y="588" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" fill="#52525b">myportfolio.techtrigger.org</text>
+
+  <!-- Right side: availability badge -->
+  <rect x="880" y="240" width="240" height="48" rx="24" fill="#052e16" fill-opacity="0.8" stroke="#166534" stroke-opacity="0.5" stroke-width="1"/>
+  <circle cx="912" cy="264" r="6" fill="#4ade80"/>
+  <text x="930" y="269" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="15" font-weight="600" fill="#4ade80">Available for work</text>
+
+  <!-- Right side: site URL label -->
+  <rect x="860" y="320" width="280" height="56" rx="16" fill="white" fill-opacity="0.03" stroke="white" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="1000" y="352" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#71717a" text-anchor="middle">noman.dev</text>
+
+  <!-- Bottom border accent -->
+  <rect x="0" y="626" width="1200" height="4" fill="url(#borderGrad)"/>
+</svg>

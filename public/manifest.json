@@ -1,0 +1,16 @@
+{
+  "name": "Muhammad Noman — Software Developer & CTO",
+  "short_name": "Noman.dev",
+  "description": "Portfolio of Muhammad Noman — Software Developer & CTO of Tech Triggers. React, Next.js, Flutter, Node.js.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
