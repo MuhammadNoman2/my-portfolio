@@ -2,21 +2,24 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Mail, MapPin, CheckCircle, Loader2 } from "lucide-react";
+import { Send, Mail, MapPin, CheckCircle, Loader2, ArrowUpRight } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { PERSONAL_INFO } from "@/constants/data";
 import { Reveal } from "@/components/animations/Reveal";
 import { MagneticButton } from "@/components/animations/MagneticButton";
-import { fadeUp, staggerContainer } from "@/lib/motion";
+
+const EXPO = [0.22, 1, 0.36, 1] as const;
 
 const INFO = [
-  { icon: Mail, label: "Email", value: PERSONAL_INFO.email, href: `mailto:${PERSONAL_INFO.email}` },
-  { icon: MapPin, label: "Location", value: PERSONAL_INFO.location, href: null as string | null },
-  { icon: GithubIcon, label: "GitHub", value: "github.com/MuhammadNoman2", href: PERSONAL_INFO.github },
-  { icon: LinkedinIcon, label: "LinkedIn", value: "muhammadnomanflutter", href: PERSONAL_INFO.linkedin },
+  { icon: Mail,        label: "Email",    value: PERSONAL_INFO.email,              href: `mailto:${PERSONAL_INFO.email}` },
+  { icon: MapPin,      label: "Location", value: PERSONAL_INFO.location,           href: null as string | null },
+  { icon: GithubIcon,  label: "GitHub",   value: "github.com/MuhammadNoman2",       href: PERSONAL_INFO.github },
+  { icon: LinkedinIcon,label: "LinkedIn", value: "muhammadnomanflutter",            href: PERSONAL_INFO.linkedin },
 ];
 
-function AnimatedInput({
+// ─── Form field ───────────────────────────────────────────────────────────────
+
+function Field({
   label, name, type = "text", placeholder, required, multiline = false,
 }: {
   label: string; name: string; type?: string; placeholder: string; required?: boolean; multiline?: boolean;
@@ -24,37 +27,32 @@ function AnimatedInput({
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState("");
   const shared = {
-    id: name,
-    name,
-    placeholder,
-    required,
-    value,
+    id: name, name, placeholder, required, value,
     onFocus: () => setFocused(true),
     onBlur: () => setFocused(false),
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setValue(e.target.value),
-    className:
-      "w-full bg-transparent text-white placeholder-zinc-600 text-sm outline-none py-3.5 px-4 resize-none",
+    className: "w-full bg-transparent text-white placeholder-zinc-600 text-sm outline-none py-3.5 px-4 resize-none",
   };
 
   return (
     <div className="space-y-1.5">
-      <label htmlFor={name} className="text-zinc-400 text-xs font-medium tracking-wide">
-        {label}
-      </label>
+      <label htmlFor={name} className="text-zinc-400 text-xs font-medium tracking-wide">{label}</label>
       <motion.div
-        animate={focused ? { borderColor: "rgba(139,92,246,0.6)", boxShadow: "0 0 0 3px rgba(139,92,246,0.1)" } : { borderColor: "rgba(255,255,255,0.08)", boxShadow: "none" }}
+        animate={
+          focused
+            ? { borderColor: "rgba(139,92,246,0.65)", boxShadow: "0 0 0 3px rgba(139,92,246,0.1)" }
+            : { borderColor: "rgba(255,255,255,0.08)", boxShadow: "none" }
+        }
         transition={{ duration: 0.2 }}
         className="rounded-xl border bg-white/3 backdrop-blur-sm overflow-hidden"
       >
-        {multiline ? (
-          <textarea {...shared} rows={5} style={{ minHeight: 120 }} />
-        ) : (
-          <input {...shared} type={type} />
-        )}
+        {multiline ? <textarea {...shared} rows={5} style={{ minHeight: 120 }} /> : <input {...shared} type={type} />}
       </motion.div>
     </div>
   );
 }
+
+// ─── Section ──────────────────────────────────────────────────────────────────
 
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -62,15 +60,13 @@ export function Contact() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
-
     const form = e.currentTarget;
     const data = {
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      name:    (form.elements.namedItem("name")    as HTMLInputElement).value,
+      email:   (form.elements.namedItem("email")   as HTMLInputElement).value,
       subject: (form.elements.namedItem("subject") as HTMLInputElement).value,
       message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
     };
-
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -93,7 +89,8 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-32 relative overflow-hidden">
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-600/6 rounded-full filter blur-[150px] pointer-events-none" />
+      {/* BG glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-violet-600/6 rounded-full filter blur-[160px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <Reveal>
@@ -119,23 +116,50 @@ export function Contact() {
         </Reveal>
 
         <div className="grid lg:grid-cols-5 gap-10">
-          {/* Left: Info */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="lg:col-span-2 space-y-4"
-          >
-            {INFO.map(({ icon: Icon, label, value, href }) => (
+
+          {/* ── Left: info panel ── */}
+          <div className="lg:col-span-2 space-y-4">
+            {/* Decorative card on top */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, ease: EXPO }}
+              className="relative p-6 rounded-2xl overflow-hidden border border-violet-500/20 bg-gradient-to-br from-violet-500/10 to-fuchsia-500/5 mb-6"
+            >
+              {/* Animated orb inside the card */}
+              <motion.div
+                animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.65, 0.4] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-8 -right-8 w-40 h-40 rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(139,92,246,0.35) 0%, transparent 70%)", filter: "blur(20px)" }}
+              />
+              <p className="text-zinc-400 text-sm leading-relaxed relative z-10">
+                Currently <span className="text-emerald-400 font-semibold">available</span> for new projects and collaborations.
+                Based in Islamabad — working with clients globally.
+              </p>
+              <a
+                href={`mailto:${PERSONAL_INFO.email}`}
+                className="inline-flex items-center gap-1.5 mt-4 text-violet-400 hover:text-violet-300 text-sm font-semibold transition-colors group relative z-10"
+              >
+                Start a conversation
+                <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+              </a>
+            </motion.div>
+
+            {/* Info items */}
+            {INFO.map(({ icon: Icon, label, value, href }, i) => (
               <motion.div
                 key={label}
-                variants={fadeUp}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, ease: EXPO, delay: i * 0.08 }}
                 whileHover={{ x: 4 }}
-                className="group flex items-center gap-4 p-5 rounded-2xl bg-white/3 border border-white/8 hover:border-violet-500/30 transition-all backdrop-blur-sm"
+                className="group flex items-center gap-4 p-4 rounded-2xl bg-white/3 border border-white/8 hover:border-violet-500/30 transition-all duration-300 backdrop-blur-sm"
               >
                 <div className="w-10 h-10 rounded-xl bg-violet-500/15 border border-violet-500/25 flex items-center justify-center flex-shrink-0">
-                  <Icon size={16} className="text-violet-400" />
+                  <Icon size={15} className="text-violet-400" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-zinc-600 text-xs font-medium">{label}</p>
@@ -154,9 +178,9 @@ export function Contact() {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Right: Form */}
+          {/* ── Right: form ── */}
           <Reveal delay={0.15} className="lg:col-span-3">
             <div className="p-8 rounded-2xl bg-white/3 border border-white/8 backdrop-blur-sm">
               <AnimatePresence mode="wait">
@@ -170,7 +194,7 @@ export function Contact() {
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 250, delay: 0.1 }}
+                      transition={{ type: "spring", stiffness: 260, delay: 0.1 }}
                       className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center"
                     >
                       <CheckCircle size={28} className="text-emerald-400" />
@@ -181,13 +205,13 @@ export function Contact() {
                     </div>
                     <button
                       onClick={() => setStatus("idle")}
-                      className="text-violet-400 hover:text-violet-300 text-sm transition-colors"
+                      className="text-violet-400 hover:text-violet-300 text-sm transition-colors cursor-pointer"
                     >
                       Send another message
                     </button>
                   </motion.div>
                 ) : (
-                  <motion.div key="form" className="space-y-5">
+                  <motion.form key="form" onSubmit={handleSubmit} className="space-y-5">
                     {/* Error banner */}
                     <AnimatePresence>
                       {status === "error" && (
@@ -199,42 +223,46 @@ export function Contact() {
                         >
                           <span className="font-semibold">Failed to send.</span>
                           <span className="text-rose-500/80">Please try again or email me directly.</span>
-                          <button onClick={() => setStatus("idle")} className="ml-auto text-rose-600 hover:text-rose-400 transition-colors text-xs underline">Dismiss</button>
+                          <button onClick={() => setStatus("idle")} className="ml-auto text-rose-600 hover:text-rose-400 text-xs underline cursor-pointer">Dismiss</button>
                         </motion.div>
                       )}
                     </AnimatePresence>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid sm:grid-cols-2 gap-5">
-                      <AnimatedInput label="Your Name" name="name" placeholder="Muhammad Ahmed" required />
-                      <AnimatedInput label="Email Address" name="email" type="email" placeholder="you@example.com" required />
+                      <Field label="Your Name"      name="name"    placeholder="Muhammad Ahmed"          required />
+                      <Field label="Email Address"  name="email"   type="email" placeholder="you@example.com" required />
                     </div>
-                    <AnimatedInput label="Subject" name="subject" placeholder="Let's build a Flutter app" required />
-                    <AnimatedInput label="Message" name="message" placeholder="Tell me about your project..." required multiline />
+                    <Field label="Subject" name="subject" placeholder="Let's build a Flutter app" required />
+                    <Field label="Message" name="message" placeholder="Tell me about your project..." required multiline />
 
                     <MagneticButton strength={0.1} className="w-full">
                       <motion.button
                         type="submit"
                         disabled={status === "sending"}
-                        whileHover={{ scale: 1.02 }}
+                        whileHover={{ scale: 1.02, boxShadow: "0 0 0 1px rgba(139,92,246,0.6), 0 12px 40px rgba(109,40,217,0.45)" }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full flex items-center justify-center gap-2.5 py-4 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 disabled:from-violet-800 disabled:to-purple-800 text-white font-semibold rounded-xl shadow-xl shadow-violet-500/25 hover:shadow-violet-500/40 transition-all"
+                        className="w-full flex items-center justify-center gap-2.5 py-4 font-semibold text-white rounded-xl transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed relative overflow-hidden"
+                        style={{
+                          background: "linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #a855f7 100%)",
+                          boxShadow: "0 0 0 1px rgba(139,92,246,0.4), 0 8px 28px rgba(109,40,217,0.3)",
+                        }}
                       >
-                        {status === "sending" ? (
-                          <>
-                            <Loader2 size={16} className="animate-spin" />
-                            Sending...
-                          </>
-                        ) : (
-                          <>
-                            <Send size={16} />
-                            Send Message
-                          </>
-                        )}
+                        <motion.div
+                          initial={{ x: "-100%" }}
+                          whileHover={{ x: "200%" }}
+                          transition={{ duration: 0.55 }}
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12"
+                        />
+                        <span className="relative z-10 flex items-center gap-2.5">
+                          {status === "sending" ? (
+                            <><Loader2 size={16} className="animate-spin" />Sending...</>
+                          ) : (
+                            <><Send size={15} />Send Message</>
+                          )}
+                        </span>
                       </motion.button>
                     </MagneticButton>
-                  </form>
-                  </motion.div>
+                  </motion.form>
                 )}
               </AnimatePresence>
             </div>

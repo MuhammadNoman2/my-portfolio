@@ -143,3 +143,148 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
+/* Dot grid overlay */
+.dot-grid {
+  background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Testimonial / slow marquee */
+@keyframes marquee-slow {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee-slow { animation: marquee-slow 52s linear infinite; }
+
+/* Marquee reverse */
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.animate-marquee-reverse { animation: marquee-reverse 44s linear infinite; }
+
+/* Float */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-10px); }
+}
+.animate-float { animation: float-y 6s ease-in-out infinite; }
+
+/* Glow pulse on border */
+@keyframes glow-border {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(139,92,246,0.2), 0 0 20px rgba(139,92,246,0.08); }
+  50%       { box-shadow: 0 0 0 1px rgba(139,92,246,0.45), 0 0 40px rgba(139,92,246,0.18); }
+}
+.animate-glow-border { animation: glow-border 3.5s ease-in-out infinite; }
+
+/* Gradient text shift */
+@keyframes gradient-x {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 5s ease infinite;
+}
+
+/* Shimmer sweep */
+@keyframes shimmer {
+  from { transform: translateX(-100%) skewX(-15deg); }
+  to   { transform: translateX(300%) skewX(-15deg); }
+}
+.shimmer-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Spin slow */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 22s linear infinite; }
+
+/* ── CSS ambient gradient orbs ───────────────────────────────────────────── */
+.bg-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  will-change: transform;
+  opacity: 0;
+  animation: orb-fade-in 1.4s ease forwards;
+}
+
+.bg-orb-violet {
+  width: 700px;
+  height: 600px;
+  top: -10%;
+  left: -15%;
+  background: radial-gradient(circle, rgba(109,40,217,0.18) 0%, transparent 70%);
+  animation-name: orb-fade-in, orb-drift-1;
+  animation-duration: 1.4s, 28s;
+  animation-timing-function: ease, ease-in-out;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, alternate;
+}
+
+.bg-orb-blue {
+  width: 600px;
+  height: 500px;
+  bottom: 10%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%);
+  animation-name: orb-fade-in, orb-drift-2;
+  animation-duration: 1.6s, 34s;
+  animation-timing-function: ease, ease-in-out;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, alternate;
+  animation-delay: 0.3s, 0s;
+}
+
+.bg-orb-fuchsia {
+  width: 400px;
+  height: 350px;
+  top: 50%;
+  left: 45%;
+  background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%);
+  animation-name: orb-fade-in, orb-drift-3;
+  animation-duration: 1.8s, 22s;
+  animation-timing-function: ease, ease-in-out;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-direction: normal, alternate;
+  animation-delay: 0.5s, 0s;
+}
+
+@keyframes orb-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes orb-drift-1 {
+  from { transform: translate(0, 0) scale(1);    }
+  to   { transform: translate(60px, 40px) scale(1.08); }
+}
+
+@keyframes orb-drift-2 {
+  from { transform: translate(0, 0) scale(1);      }
+  to   { transform: translate(-50px, -35px) scale(0.94); }
+}
+
+@keyframes orb-drift-3 {
+  from { transform: translate(0, 0) scale(1);     }
+  to   { transform: translate(30px, -40px) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-orb { animation: none; opacity: 1; }
+  .animate-marquee, .animate-marquee-slow, .animate-marquee-reverse,
+  .animate-float, .animate-glow-border, .animate-gradient-x,
+  .animate-spin-slow, .shimmer-sweep { animation: none; }
+}

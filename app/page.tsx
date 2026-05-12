@@ -10,27 +10,64 @@ import { Projects } from "@/components/sections/Projects";
 import { Experience } from "@/components/sections/Experience";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Contact } from "@/components/sections/Contact";
+import { SkillTicker } from "@/components/ui/SkillTicker";
 
 export default function Home() {
   useLenis();
 
   return (
     <main className="relative bg-black min-h-screen overflow-x-hidden">
-      {/* Ambient background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-violet-950/20 rounded-full filter blur-[150px]" />
-        <div className="absolute bottom-1/3 right-0 w-[600px] h-[400px] bg-purple-950/15 rounded-full filter blur-[120px]" />
+
+      {/* ── CSS ambient background — GPU-composited, zero JS ─────────────── */}
+      <div aria-hidden className="fixed inset-0 z-0 pointer-events-none">
+        {/* Violet orb — top left */}
+        <div className="bg-orb bg-orb-violet" />
+        {/* Blue orb — bottom right */}
+        <div className="bg-orb bg-orb-blue" />
+        {/* Fuchsia accent — center */}
+        <div className="bg-orb bg-orb-fuchsia" />
       </div>
 
-      <div className="relative z-10">
+      {/* ── Dot grid overlay ─────────────────────────────────────────────── */}
+      <div aria-hidden className="fixed inset-0 z-0 pointer-events-none dot-grid opacity-60" />
+
+      {/* ── Navbar ───────────────────────────────────────────────────────── */}
+      <div className="relative z-50">
         <Navbar />
+      </div>
+
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <div className="relative z-10">
         <Hero />
+      </div>
+
+      {/* ── Skill ticker ─────────────────────────────────────────────────── */}
+      <div className="relative z-10">
+        <SkillTicker />
+      </div>
+
+      {/* ── Sections ─────────────────────────────────────────────────────── */}
+      <div className="relative z-10">
         <About />
+      </div>
+      <div className="relative z-10">
         <Skills />
+      </div>
+      <div className="relative z-10">
         <Projects />
+      </div>
+      <div className="relative z-10">
         <Experience />
+      </div>
+      <div className="relative z-10">
         <Testimonials />
+      </div>
+      <div className="relative z-10">
         <Contact />
+      </div>
+
+      {/* ── Footer ───────────────────────────────────────────────────────── */}
+      <div className="relative z-10">
         <Footer />
       </div>
     </main>
